@@ -27,7 +27,7 @@ object Boot extends TheGame {
       draw(ctx)
     }
 
-    dom.setInterval(() => run, 32)
+    dom.setInterval(() => run, 16)
   }
 
   def resizeCanvas(canvas: html.Canvas) = {

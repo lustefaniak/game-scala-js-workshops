@@ -4,7 +4,7 @@ import org.scalajs.dom.CanvasRenderingContext2D
 
 trait TheGame {
 
-  class State(windowSize: Vect) {
+  class State(val windowSize: Vect) {
     val unitSize = windowSize.y / 40
     var paddleHeight = unitSize * 7
     var paddleMiddle = windowSize.y / 2
@@ -24,6 +24,9 @@ trait TheGame {
 
     ctx.fillStyle = "white"
     ctx.fillRect(state.unitSize, state.paddleMiddle - state.paddleHeight / 2, state.unitSize, state.paddleHeight)
+
+    ctx.fillRect(state.unitSize, state.unitSize, state.windowSize.x - state.unitSize * 2, state.unitSize)
+    ctx.fillRect(state.unitSize, state.windowSize.y - state.unitSize * 2, state.windowSize.x - state.unitSize * 2, state.unitSize)
 
   }
 }

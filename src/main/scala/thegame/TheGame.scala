@@ -51,6 +51,10 @@ trait TheGame {
     (vect + reflection).normalize
   }
 
+  def isTouchingPadle(pos: Vect): Boolean = {
+    false
+  }
+
   def update(): Unit = {
     if (state.ballPosition.x < state.unitSize
       || state.ballPosition.x > state.windowSize.x - state.unitSize
@@ -75,8 +79,10 @@ trait TheGame {
         case CollisionPlane(normal, d, isPaddle) =>
           val distanceToPlane = newPos.dot(normal) + d
           if (distanceToPlane < 0) {
-            newDir = vectorReflection(newDir, normal)
-            newPos = newPos - (newDir * distanceToPlane)
+            if (!isPaddle || isTouchingPadle(newPos)) {
+              newDir = vectorReflection(newDir, normal)
+              newPos = newPos - (newDir * distanceToPlane)
+            }
           }
       }
 

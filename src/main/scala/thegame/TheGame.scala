@@ -5,6 +5,8 @@ import org.scalajs.dom.raw.KeyboardEvent
 import org.scalajs.dom.window
 import org.scalajs.dom.console
 
+import scala.scalajs.js
+
 
 trait TheGame {
 
@@ -34,6 +36,7 @@ trait TheGame {
 
   def update(): Unit = {
     keys.foreach(console.log(_))
+    console.log(state.asInstanceOf[js.Any])
 
 
   }

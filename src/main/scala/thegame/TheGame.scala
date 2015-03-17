@@ -3,6 +3,7 @@ package thegame
 import org.scalajs.dom.CanvasRenderingContext2D
 import org.scalajs.dom.raw.KeyboardEvent
 import org.scalajs.dom.window
+import org.scalajs.dom.console
 
 
 trait TheGame {
@@ -32,6 +33,8 @@ trait TheGame {
   }
 
   def update(): Unit = {
+    keys.foreach(console.log(_))
+
 
   }
 

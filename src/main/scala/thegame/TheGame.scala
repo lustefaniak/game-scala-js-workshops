@@ -39,6 +39,12 @@ trait TheGame {
     state = new State(windowSize)
   }
 
+  def vectorReflection(vect: Vect, normal: Vect): Vect = {
+    val dot: Double = normal.dot(vect) * -2
+    val reflection: Vect = normal * dot
+    (vect + reflection).normalize
+  }
+
   def update(): Unit = {
     if (state.ballPosition.x < state.unitSize
       || state.ballPosition.x > state.windowSize.x - state.unitSize
@@ -57,7 +63,19 @@ trait TheGame {
 
       state.paddleMiddle = Math.min(Math.max(state.paddleHeight / 2 + state.unitSize * 3, state.paddleMiddle), state.windowSize.y - state.paddleHeight / 2 - state.unitSize * 3)
 
-      state.ballPosition = state.ballPosition + state.ballDirection * state.ballSpeed
+      var newPos = state.ballPosition + state.ballDirection * state.ballSpeed
+      var newDir = state.ballDirection
+      state.collisionPlanes.foreach {
+        case (normal, d) =>
+          val distanceToPlane = newPos.dot(normal) + d
+          if (distanceToPlane < 0) {
+            newDir = vectorReflection(newDir, normal)
+            newPos = newPos - (newDir * distanceToPlane)
+          }
+      }
+
+      state.ballPosition = newPos
+      state.ballDirection = newDir
 
     }
   }

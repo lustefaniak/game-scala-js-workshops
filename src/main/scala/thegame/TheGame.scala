@@ -1,8 +1,15 @@
 package thegame
 
 import org.scalajs.dom.CanvasRenderingContext2D
+import org.scalajs.dom.raw.KeyboardEvent
+import org.scalajs.dom.window
+
 
 trait TheGame {
+
+  window.onkeydown = (kd: KeyboardEvent) => {
+
+  }
 
   class State(val windowSize: Vect) {
     val unitSize = windowSize.y / 40

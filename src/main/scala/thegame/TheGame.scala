@@ -28,5 +28,8 @@ trait TheGame {
     ctx.fillRect(state.unitSize, state.unitSize, state.windowSize.x - state.unitSize * 2, state.unitSize)
     ctx.fillRect(state.unitSize, state.windowSize.y - state.unitSize * 2, state.windowSize.x - state.unitSize * 2, state.unitSize)
 
+    ctx.fillStyle = "blue"
+    ctx.fillRect(state.windowSize.x - state.unitSize * 2, state.unitSize * 2, state.unitSize, state.windowSize.y - state.unitSize * 4)
+
   }
 }

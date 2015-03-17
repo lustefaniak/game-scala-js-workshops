@@ -1,6 +1,7 @@
 package thegame
 
 import org.scalajs.dom.CanvasRenderingContext2D
+import org.scalajs.dom.ext.KeyCode
 import org.scalajs.dom.raw.KeyboardEvent
 import org.scalajs.dom.window
 import org.scalajs.dom.console
@@ -25,6 +26,7 @@ trait TheGame {
     var paddleHeight = unitSize * 7
     var paddleMiddle = windowSize.y / 2
     var ballPosition = windowSize * 0.5
+    var paddleSpeed = 30
 
   }
 
@@ -37,6 +39,11 @@ trait TheGame {
   def update(): Unit = {
     keys.foreach(console.log(_))
     console.log(state.asInstanceOf[js.Any])
+    if (keys(KeyCode.w)) {
+      state.paddleMiddle -= state.paddleSpeed
+    } else if (keys(KeyCode.s)) {
+      state.paddleMiddle += state.paddleSpeed
+    }
 
 
   }

@@ -45,6 +45,8 @@ trait TheGame {
       state.paddleMiddle += state.paddleSpeed
     }
 
+    state.paddleMiddle = Math.min(Math.max(state.paddleHeight / 2, state.paddleMiddle), state.windowSize.y - state.paddleHeight / 2)
+
 
   }
 

@@ -30,6 +30,7 @@ trait TheGame {
     var ballSpeed = 10
     var paddleSpeed = 30
     val collisionPlanes: List[(Vect, Double)] = List((Vect(0, 1), unitSize * -2), (Vect(0, -1), windowSize.y - unitSize * 3), (Vect(-1, 0), windowSize.x - unitSize * 3))
+    var gameOver = false
   }
 
   var state: State = _
@@ -39,19 +40,26 @@ trait TheGame {
   }
 
   def update(): Unit = {
-    keys.foreach(console.log(_))
-    console.log(state.asInstanceOf[js.Any])
-    if (keys(KeyCode.w)) {
-      state.paddleMiddle -= state.paddleSpeed
-    } else if (keys(KeyCode.s)) {
-      state.paddleMiddle += state.paddleSpeed
+    if (state.ballPosition.x < state.unitSize
+      || state.ballPosition.x > state.windowSize.x - state.unitSize
+      || state.ballPosition.y < state.unitSize
+      || state.ballPosition.y > state.windowSize.y - state.unitSize) {
+      state.gameOver = true
+    } else {
+
+      keys.foreach(console.log(_))
+      console.log(state.asInstanceOf[js.Any])
+      if (keys(KeyCode.w)) {
+        state.paddleMiddle -= state.paddleSpeed
+      } else if (keys(KeyCode.s)) {
+        state.paddleMiddle += state.paddleSpeed
+      }
+
+      state.paddleMiddle = Math.min(Math.max(state.paddleHeight / 2 + state.unitSize * 3, state.paddleMiddle), state.windowSize.y - state.paddleHeight / 2 - state.unitSize * 3)
+
+      state.ballPosition = state.ballPosition + state.ballDirection * state.ballSpeed
+
     }
-
-    state.paddleMiddle = Math.min(Math.max(state.paddleHeight / 2 + state.unitSize * 3, state.paddleMiddle), state.windowSize.y - state.paddleHeight / 2 - state.unitSize * 3)
-
-    state.ballPosition = state.ballPosition + state.ballDirection * state.ballSpeed
-
-
   }
 
   def draw(ctx: CanvasRenderingContext2D): Unit = {

@@ -22,5 +22,8 @@ trait TheGame {
 
   def draw(ctx: CanvasRenderingContext2D): Unit = {
 
+    ctx.fillStyle = "white"
+    ctx.fillRect(state.unitSize, state.paddleMiddle - state.paddleHeight / 2, state.unitSize, state.paddleHeight)
+
   }
 }

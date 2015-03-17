@@ -29,6 +29,7 @@ trait TheGame {
     var ballDirection = Vect(3, 1).normalize
     var ballSpeed = 10
     var paddleSpeed = 30
+    val collisionPlanes: List[(Vect, Double)] = List((Vect(0, 1), unitSize * -2), (Vect(0, -1), windowSize.y - unitSize * 3), (Vect(-1, 0), windowSize.x - unitSize * 3))
   }
 
   var state: State = _

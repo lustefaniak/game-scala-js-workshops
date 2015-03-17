@@ -52,7 +52,7 @@ trait TheGame {
   }
 
   def isTouchingPadle(pos: Vect): Boolean = {
-    false
+    pos.y > state.paddleMiddle - state.paddleHeight / 2 && pos.y < state.paddleMiddle + state.paddleHeight + state.unitSize
   }
 
   def update(): Unit = {

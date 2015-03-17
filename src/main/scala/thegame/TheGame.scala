@@ -26,8 +26,9 @@ trait TheGame {
     var paddleHeight = unitSize * 7
     var paddleMiddle = windowSize.y / 2
     var ballPosition = windowSize * 0.5
+    var ballDirection = Vect(3, 1).normalize
+    var ballSpeed = 10
     var paddleSpeed = 30
-
   }
 
   var state: State = _
@@ -46,6 +47,8 @@ trait TheGame {
     }
 
     state.paddleMiddle = Math.min(Math.max(state.paddleHeight / 2 + state.unitSize * 3, state.paddleMiddle), state.windowSize.y - state.paddleHeight / 2 - state.unitSize * 3)
+
+    state.ballPosition = state.ballPosition + state.ballDirection * state.ballSpeed
 
 
   }

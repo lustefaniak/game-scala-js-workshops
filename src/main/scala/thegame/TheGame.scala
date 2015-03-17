@@ -8,6 +8,8 @@ trait TheGame {
     val unitSize = windowSize.y / 40
     var paddleHeight = unitSize * 7
     var paddleMiddle = windowSize.y / 2
+    var ballPosition = windowSize * 0.5
+
   }
 
   var state: State = _
@@ -30,6 +32,9 @@ trait TheGame {
 
     ctx.fillStyle = "blue"
     ctx.fillRect(state.windowSize.x - state.unitSize * 2, state.unitSize * 2, state.unitSize, state.windowSize.y - state.unitSize * 4)
+
+    ctx.fillStyle = "gray"
+    ctx.fillRect(state.ballPosition.x, state.ballPosition.y, state.unitSize, state.unitSize)
 
   }
 }

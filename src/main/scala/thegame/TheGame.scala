@@ -63,9 +63,7 @@ trait TheGame {
       || state.ballPosition.y > state.windowSize.y - state.unitSize) {
       state.gameOver = true
     } else {
-
-      keys.foreach(console.log(_))
-      console.log(state.asInstanceOf[js.Any])
+      
       if (keys(KeyCode.w)) {
         state.paddleMiddle -= state.paddleSpeed
       } else if (keys(KeyCode.s)) {

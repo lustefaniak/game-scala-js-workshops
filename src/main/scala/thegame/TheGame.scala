@@ -8,6 +8,7 @@ import org.scalajs.dom.console
 
 import scala.scalajs.js
 
+case class CollisionPlane(vect: Vect, d: Double, isPaddle: Boolean = false)
 
 trait TheGame {
 
@@ -29,7 +30,12 @@ trait TheGame {
     var ballDirection = Vect(3, 1).normalize
     var ballSpeed = 10
     var paddleSpeed = 30
-    val collisionPlanes: List[(Vect, Double)] = List((Vect(0, 1), unitSize * -2), (Vect(0, -1), windowSize.y - unitSize * 3), (Vect(-1, 0), windowSize.x - unitSize * 3))
+    val collisionPlanes: List[CollisionPlane] = List(
+      CollisionPlane(Vect(1, 0), unitSize * -2, true),
+      CollisionPlane(Vect(0, 1), unitSize * -2),
+      CollisionPlane(Vect(0, -1), windowSize.y - unitSize * 3),
+      CollisionPlane(Vect(-1, 0), windowSize.x - unitSize * 3)
+    )
     var gameOver = false
   }
 
@@ -66,7 +72,7 @@ trait TheGame {
       var newPos = state.ballPosition + state.ballDirection * state.ballSpeed
       var newDir = state.ballDirection
       state.collisionPlanes.foreach {
-        case (normal, d) =>
+        case CollisionPlane(normal, d, isPaddle) =>
           val distanceToPlane = newPos.dot(normal) + d
           if (distanceToPlane < 0) {
             newDir = vectorReflection(newDir, normal)

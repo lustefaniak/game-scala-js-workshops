@@ -7,8 +7,14 @@ import org.scalajs.dom.window
 
 trait TheGame {
 
-  window.onkeydown = (kd: KeyboardEvent) => {
+  val keys = collection.mutable.Set[Int]()
 
+  window.onkeydown = (kd: KeyboardEvent) => {
+    keys.add(kd.keyCode)
+  }
+
+  window.onkeyup = (kd: KeyboardEvent) => {
+    keys.remove(kd.keyCode)
   }
 
   class State(val windowSize: Vect) {

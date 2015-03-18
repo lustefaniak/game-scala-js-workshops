@@ -57,6 +57,11 @@ trait TheGame {
   }
 
   def update(): Unit = {
+
+    if (keys(KeyCode.r)) {
+      state = new State(state.windowSize)
+    }
+
     if (state.ballPosition.x < state.unitSize
       || state.ballPosition.x > state.windowSize.x - state.unitSize
       || state.ballPosition.y < state.unitSize

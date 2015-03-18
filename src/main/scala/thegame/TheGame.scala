@@ -81,16 +81,13 @@ trait TheGame {
             if (!isPaddle || isTouchingPadle(newPos)) {
               newDir = vectorReflection(newDir, normal)
               newPos = newPos - (newDir * distanceToPlane)
-              if(isPaddle) {
+              if (isPaddle) {
                 state.points += 1
                 state.ballSpeed = 10 * Math.pow(1.04, state.points)
               }
             }
           }
       }
-
-      println(state.points)
-      println(state.ballSpeed)
 
       state.ballPosition = newPos
       state.ballDirection = newDir
@@ -111,6 +108,9 @@ trait TheGame {
 
     ctx.fillStyle = "gray"
     ctx.fillRect(state.ballPosition.x, state.ballPosition.y, state.unitSize, state.unitSize)
+
+    ctx.font = (state.unitSize * 2).toInt + "px Arial"
+    ctx.fillText(state.points.toString, state.windowSize.x / 2, state.unitSize * 4)
 
   }
 }

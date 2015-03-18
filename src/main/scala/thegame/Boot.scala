@@ -12,7 +12,7 @@ object Boot extends TheGame {
   def main(canvas: html.Canvas): Unit = {
 
     init(resizeCanvas(canvas))
-
+    
     val ctx = canvas.getContext("2d")
       .asInstanceOf[dom.CanvasRenderingContext2D]
 

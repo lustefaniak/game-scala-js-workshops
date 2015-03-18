@@ -7,6 +7,7 @@ import org.scalajs.dom.window
 import org.scalajs.dom.console
 
 import scala.scalajs.js
+import rx._
 
 case class CollisionPlane(vect: Vect, d: Double, isPaddle: Boolean = false)
 
@@ -28,9 +29,10 @@ trait TheGame {
     var paddleMiddle = windowSize.y / 2
     var ballPosition = windowSize * 0.5
     var ballDirection = Vect(3, 1).normalize
-    var ballSpeed = 10.0
+    val points = Var(0)
+    val ballSpeed = Rx(10.0 * Math.pow(1.04, points()))
+    val scoreDisplay = Rx("Score: " + points())
     var paddleSpeed = 30.0
-    var points = 0
     val collisionPlanes: List[CollisionPlane] = List(
       CollisionPlane(Vect(1, 0), unitSize * -2, true),
       CollisionPlane(Vect(0, 1), unitSize * -2),
@@ -77,7 +79,7 @@ trait TheGame {
 
       state.paddleMiddle = Math.min(Math.max(state.paddleHeight / 2 + state.unitSize * 3, state.paddleMiddle), state.windowSize.y - state.paddleHeight / 2 - state.unitSize * 3)
 
-      var newPos = state.ballPosition + state.ballDirection * state.ballSpeed
+      var newPos = state.ballPosition + state.ballDirection * state.ballSpeed()
       var newDir = state.ballDirection
       state.collisionPlanes.foreach {
         case CollisionPlane(normal, d, isPaddle) =>
@@ -87,8 +89,7 @@ trait TheGame {
               newDir = vectorReflection(newDir, normal)
               newPos = newPos - (newDir * distanceToPlane)
               if (isPaddle) {
-                state.points += 1
-                state.ballSpeed = 10 * Math.pow(1.04, state.points)
+                state.points() += 1
               }
             }
           }
@@ -115,7 +116,7 @@ trait TheGame {
     ctx.fillRect(state.ballPosition.x, state.ballPosition.y, state.unitSize, state.unitSize)
 
     ctx.font = (state.unitSize * 2).toInt + "px Arial"
-    ctx.fillText(state.points.toString, state.windowSize.x / 2, state.unitSize * 4)
+    ctx.fillText(state.scoreDisplay(), state.windowSize.x / 2, state.unitSize * 4)
 
   }
 }

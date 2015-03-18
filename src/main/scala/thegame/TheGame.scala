@@ -28,8 +28,8 @@ trait TheGame {
     var paddleMiddle = windowSize.y / 2
     var ballPosition = windowSize * 0.5
     var ballDirection = Vect(3, 1).normalize
-    var ballSpeed = 10
-    var paddleSpeed = 30
+    var ballSpeed = 10.0
+    var paddleSpeed = 30.0
     var points = 0
     val collisionPlanes: List[CollisionPlane] = List(
       CollisionPlane(Vect(1, 0), unitSize * -2, true),
@@ -81,7 +81,10 @@ trait TheGame {
             if (!isPaddle || isTouchingPadle(newPos)) {
               newDir = vectorReflection(newDir, normal)
               newPos = newPos - (newDir * distanceToPlane)
-              if(isPaddle) state.points += 1
+              if(isPaddle) {
+                state.points += 1
+                state.ballSpeed = 10 * Math.pow(1.04, state.points)
+              }
             }
           }
       }

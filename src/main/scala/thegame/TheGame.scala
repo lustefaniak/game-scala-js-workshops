@@ -63,7 +63,7 @@ trait TheGame {
       || state.ballPosition.y > state.windowSize.y - state.unitSize) {
       state.gameOver = true
     } else {
-      
+
       if (keys(KeyCode.w)) {
         state.paddleMiddle -= state.paddleSpeed
       } else if (keys(KeyCode.s)) {
@@ -85,6 +85,9 @@ trait TheGame {
             }
           }
       }
+
+      println(state.points)
+      println(state.ballSpeed)
 
       state.ballPosition = newPos
       state.ballDirection = newDir

@@ -118,5 +118,9 @@ trait TheGame {
     ctx.font = (state.unitSize * 2).toInt + "px Arial"
     ctx.fillText(state.scoreDisplay(), state.windowSize.x / 2, state.unitSize * 4)
 
+    ctx.font = "20px Helvetica"
+    ctx.fillStyle = "green"
+    ctx.fillText("To move use <w> and <s>, to restart <r> or reload page.", state.unitSize * 2, state.windowSize.y - state.unitSize * 4) 
+    
   }
 }

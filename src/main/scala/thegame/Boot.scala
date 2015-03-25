@@ -1,39 +1,82 @@
 package thegame
 
-import org.scalajs.dom
-import org.scalajs.dom._
+import org.scalajs.dom.document
+import org.scalajs.dom.console
+import org.scalajs.dom.ext.KeyCode
+
+import org.scalajs.dom.raw.{KeyboardEvent, Event, HTMLInputElement, HTMLDivElement}
+
+import scala.scalajs.js
+import scalatags.JsDom.all._
+import rx._
+import scalatags.rx.ext._
+import scalatags.rx.all._
 
 import scala.scalajs.js.annotation.JSExport
 
+case class Task(what: String, done: Var[Boolean] = Var(false))
+
 @JSExport
-object Boot extends TheGame {
+object Boot {
+
+  var container: HTMLDivElement = _
+
+  val tasks = Var(List[Task](
+    Task("Get out thrash"),
+    Task("Pet the dog", Var(true))
+  ))
+
+  //  val s = new {
+  //    var internal:String = ""
+  //    def update(newS:String): Unit ={
+  //      internal = newS
+  //    }
+  //  }
+  //  s() = "test"
+
+
+  val todoInput = input(
+    onkeyup := ((e: KeyboardEvent) => {
+      if (e.keyCode == KeyCode.enter) {
+        val me = e.target.asInstanceOf[HTMLInputElement]
+        val what = me.value
+        tasks() ::= Task(what)
+        me.value = ""
+      }
+    }),
+    autofocus := "true"
+  )
 
   @JSExport
-  def main(canvas: html.Canvas): Unit = {
+  def main(cont: HTMLDivElement): Unit = {
+    container = cont
 
-    init(resizeCanvas(canvas))
+    val todo =
+      div(
+        todoInput,
+        Rx {
+          ul(
+            tasks().map(t => {
+              Rx {
+                li(
+                  input(
+                    `type` := "checkbox",
+                    if (t.done()) (checked := "true") else (),
+                    onclick := (() => {
+                      t.done() = !t.done()
+                    })
+                  ),
+                  style := (if (t.done()) "text-decoration: line-through;" else ""),
+                  t.what
+                ).render
+              }
+            })
+          ).render
+        }
+      )
 
-    val ctx = canvas.getContext("2d")
-      .asInstanceOf[dom.CanvasRenderingContext2D]
+    container.innerHTML = ""
+    container.appendChild(todo.render)
 
-    def clear() = {
-      ctx.fillStyle = "black"
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
-    }
-
-    def run = {
-      clear()
-      update()
-      draw(ctx)
-    }
-
-    dom.setInterval(() => run, 32)
   }
-
-  def resizeCanvas(canvas: html.Canvas) = {
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    Vect(canvas.width, canvas.height)
-  }
-
 }
